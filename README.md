@@ -22,4 +22,5 @@ In the `./` directory of this archive, use the command:
 
 `cargo build`
 
-to construct `target/debug/encounters` that solves task 1a.
+to construct `target/debug/encounters`.
+

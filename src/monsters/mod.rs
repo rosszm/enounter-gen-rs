@@ -2,8 +2,11 @@
 // zmr462
 // 11215196
 
-pub mod monster;
-use monster::Monster;
+// monsters module
+
+
+mod monster;
+pub use monster::Monster;
 
 use rand::{thread_rng, Rng};
 use std::fs::File;
@@ -15,7 +18,8 @@ use std::io::prelude::*;
 /// A roster of Monsters
 #[derive(Debug)]
 pub struct Monsters {
-    values: Vec<Monster>
+    values: Vec<Monster>,
+    rating: u32
 }
 
 impl Monsters {
@@ -35,7 +39,8 @@ impl Monsters {
         };
         buf.clear();
         let mut monsters = Monsters {
-            values: Vec::with_capacity(size)
+            values: Vec::with_capacity(size),
+            rating: 0
         };
 
         while reader.read_line(&mut buf)? > 0 {
@@ -44,6 +49,7 @@ impl Monsters {
                     Ok(s) => s,
                     Err(_) => return Err(io::Error::from(IoError::InvalidData))
                 };
+                monsters.rating += monster.rating();
                 monsters.values.push(monster);
                 buf.clear();
         }
@@ -53,6 +59,11 @@ impl Monsters {
     /// Returns the number of monsters in the roster.
     pub fn len(&self) -> usize {
         self.values.len()
+    }
+
+    /// Returns the total challenge rating of all monsters in the roster.
+    pub fn total_rating(&self) -> u32 {
+        self.rating
     }
 
     /// Returns an iterator over the roster of Monsters.
