@@ -1,0 +1,11 @@
+[package]
+name = "encounters"
+version = "0.4.0"
+authors = ["zmr462 <zmr462@usask.ca>", "cjd032 <dutchyn@cs.usask.ca>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand = "0.8.2"
+
