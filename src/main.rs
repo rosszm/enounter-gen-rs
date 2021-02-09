@@ -2,23 +2,36 @@
 // zmr462
 // 11215196
 
-
-extern crate encounters;
-use encounters::monsters::Monsters;
+mod monsters;
+use monsters::Monsters;
 
 use std::env;
 use std::io;
 use std::io::Write;
 
-fn encounter(ms: Monsters) {
+fn encounter(monsters: Monsters) {
     print!("Enter party capability: ");
     io::stdout().flush().unwrap();      // we can't fix this problem!
 
     let mut i = String::new();
     io::stdin().read_line(&mut i).unwrap();
     let cr: u32 = i.trim().parse::<u32>().unwrap_or_default();
-    ms.encounter(cr);
+    
+    task1a(monsters, cr);
 }
+
+fn task1a(monsters: Monsters, cr: u32) {
+    let mut mons_rating = 0;
+    for monster in monsters.iter(true) {
+        if mons_rating >= cr {
+            break;
+        }
+        monster.print();
+        mons_rating += monster.rating()
+    }
+    println!("  total challenge rating: {}\n", mons_rating);
+}
+
 
 // main program
 fn main() {

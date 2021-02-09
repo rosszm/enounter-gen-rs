@@ -10,7 +10,6 @@ use std::fs::File;
 use std::io;
 use std::io::ErrorKind as IoError;
 use std::io::prelude::*;
-use rand::prelude::SliceRandom;
 
 
 /// A roster of Monsters
@@ -49,18 +48,6 @@ impl Monsters {
                 buf.clear();
         }
         Ok(monsters)
-    }
-
-    // print an encounter with capability >= cr
-    pub fn encounter(&self, cr: u32) {
-        let mut rng = thread_rng();
-        let mut cap: u32 = 0;
-        while cap < cr {
-            let monster: &Monster = self.values.choose(&mut rng).unwrap();
-            monster.print();
-            cap += monster.rating();
-        }
-        println!("  total challenge rating: {}\n", cap);
     }
     
     /// Returns the number of monsters in the roster.
