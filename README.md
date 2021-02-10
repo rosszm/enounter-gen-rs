@@ -12,15 +12,31 @@ This archive includes:
 - Discuss.txt
 - monsters.db
 
-- src/main.rs -- the Rust implementation
+- src/lib.rs -- the monsters library
+- src/main.rs -- the main program
 - Cargo.toml -- the cargo imports
 
 
 Compile Instructions
 --------------------
-In the `./` directory of this archive, use the command:
+In the `./` directory of this archive, use following to build the program:
 
 `cargo build`
 
-to construct `target/debug/encounters`.
+Then use:
+
+`cargo run $TASK $FILE`
+
+or
+
+`./target/debug/encounters $TASK $FILE`
+
+Where `$FILE` is the name/path of a monster db file, and `$TASK` is one of the 
+following:
+
+ - `1a` -- for Task 1a
+ - `1b` -- for Task 1b
+ - `2a` -- for Task 2a
+ - `2b` -- for Task 2b
+ - `3` -- for Task 3
 
