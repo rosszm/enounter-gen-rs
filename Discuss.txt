@@ -5,36 +5,25 @@ zmr462,
 Discuss.txt
 -----------
 
-For Task 1a, I created a separate struct in my monsters module called MonsterIter.
-This struct contains a reference to a Monsters struct. The next function selects
-a random value from Monsters.value. I chose to the choose method to select a random
-monster because it allowed me to condense selecting a random index and getting the
-monster at the index into a single method.
+Since I had a complete implementation of ex4, most of my work for this exercise
+was refactoring what I a previously written. The first major modification I did
+was getting rid of uses of "lambda-dispatch" within my monster iterator. I did
+this by creating two separate iterator structs, one that allows repeats and one
+that doesn't. I then created two functions within the Monsters struct that
+return the respective iterator. I also moved the iterators into their own iter 
+sub-module.
 
-For Task 1b I had to extend my struct; I added a new boolean field which states
-whether or not the monster iterator will allows repeats. Also, rather than
-storing a reference to a Monsters struct, I now store a list of references to
-individual monsters. This list refers to the monsters that have not been chosen yet, 
-and because it has no bearing on the original roster, chosen monsters can be deleted
-from the list without mutating the roster. This method is fast, but involves using
-more space which could potentially be an issue with larger datasets. However, since
-it uses a list of references, which have a size of usize, the memory cost is less 
-than simply cloning the roster. 
+The next major change I made was creating separate binaries for each task. In 
+ex4 I had already separated the different tasks into their own functions, so
+this change was fairly simple to perform. However, It did involve taking a look
+at my project structure.
 
-While implementing task 2, I refactored my main program into separate modules 
-to make it cleaner and easier to read. The tasks module contains all the task
-functions for the main program as well as functions for reading user input and
-generating encounters. I then put the monsters module in lib.rs 
-
-In task 3, I implemented an Encounter struct that has two fields: a usage map and
-the rating. The usage map is an index map from the imported cargo crate "indexmap".
-I used this because it allowed me map monster references to an integer representing
-the number of times the monster has been chosen. Additionally, the index map supports
-sorting which the hash map in Rust's std collections does not. I also had to add
-a number of new getters and a comparison method to the Monster struct. I chose to
-use a separate sort method for the Encounter struct rather than insertion sort because
-it might not always be necessary to have the monsters sorted; also, you may want
-to sort the monsters by something other than initiative. Lastly, I placed the code 
-for my Encounter struct in a new module called encounter, which is included in lib.rs.
-I then implemented a new encounter function in my tasks::gen module, which generates
-encounters using the new struct.
+Lastly, I modified my Encounter struct to use the method suggested in our 
+Wednesday meetings, the method of added them all to the vector, sorting, then
+counting multiple occurrences. In ex4 I had used a indexmap to map monsters to
+their usage. I decided to implement this new method because I wanted the 
+experience of implementing multiple different methods. This vector method has a 
+sightly lower time cost for insertion and a smaller space cost when there is a 
+small number of repetitions. However, because the same monster is only represented
+once using the indexmap method, it is likely to be more efficient when there is 
+a large number of repeated monsters in the encounter.

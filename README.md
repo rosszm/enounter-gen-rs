@@ -13,7 +13,7 @@ This archive includes:
 - monsters.db
 
 - src/lib.rs -- the monsters library
-- src/main.rs -- the main program
+- src/tasks/ -- directory containing the main programs for reach task
 - Cargo.toml -- the cargo imports
 
 
@@ -25,18 +25,21 @@ In the `./` directory of this archive, use following to build the program:
 
 Then use:
 
-`cargo run $TASK $FILE`
+`cargo run --bin $TASK $FILE`
 
 or
 
-`./target/debug/encounters $TASK $FILE`
+`./target/debug/$TASK $FILE`
 
 Where `$FILE` is the name/path of a monster db file, and `$TASK` is one of the 
 following:
+ - `task1a` 
+ - `task1b` 
+ - `task2a` 
+ - `task2b` 
+ - `task3`
 
- - `1a` -- for Task 1a
- - `1b` -- for Task 1b
- - `2a` -- for Task 2a
- - `2b` -- for Task 2b
- - `3` -- for Task 3
+### Example Usage:
+`./target/debug/task1a monsters.db`
 
+will run the task 1a binary using the roster from the file `monsters.db`.
