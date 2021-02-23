@@ -8,7 +8,10 @@
 mod monster;
 pub use monster::Monster;
 
-use rand::{thread_rng, Rng};
+mod iter;
+pub use iter::RandRepIterator;
+pub use iter::RandNonRepIterator;
+
 use std::fs::File;
 use std::io;
 use std::io::ErrorKind as IoError;
@@ -66,52 +69,19 @@ impl Monsters {
         self.rating
     }
 
-    /// Returns an iterator over the roster of Monsters.
+    /// Returns an iterator over the roster of Monsters that can visit a single
+    /// monster only once.
     /// 
-    /// * `repeats` - whether or not monsters can be repeated
-    pub fn iter(&self, repeats: bool) -> MonsterIter {
-        MonsterIter::create(&self, repeats)
+    pub fn iter(&self) -> RandNonRepIterator {
+        RandNonRepIterator::create(&self)
     }
-}
 
-
-/// Iterator structure for monsters
-/// 
-/// This struct allows for monster to be removed without without effecting the
-/// original roster of monsters.
-pub struct MonsterIter<'a,> {
-    /// Represents whether or not monsters can be repeated.
-    repeats: bool,
-    /// Vector of references to Monsters.
-    monsters: Vec<&'a Monster>,
-}
-
-impl<'a> MonsterIter<'a,> {
-    /// Returns an new Iterator over monsters.
+    /// Returns an iterator over the roster of Monsters that can visit a single
+    /// monster more than once. 
     /// 
-    /// * `mons` - the Monsters struct to iterate over
-    /// * `repeats` - whether or not monsters can be repeated
-    fn create(mons: &'a Monsters, repeats: bool) -> Self {
-        MonsterIter {
-            repeats: repeats,
-            monsters: mons.values.iter().collect()
-        }
-    }
-}
-
-impl<'a> Iterator for MonsterIter<'a,> {
-    type Item = &'a Monster;
-
-    fn next(&mut self) -> Option<&'a Monster> { 
-        let mut rng = thread_rng();
-        let index = rng.gen_range(0..self.monsters.len());
-        let monster = match self.monsters.get(index) {
-            Some(monster) => Some(*monster),
-            None => None
-        };
-        if !self.repeats {
-            self.monsters.swap_remove(index);
-        }
-        monster
+    /// Since repetitions are allowed, this iterator will be generate monsters 
+    /// infinitely.
+    pub fn iter_with_repeats(&self) -> RandRepIterator {
+        RandRepIterator::create(&self)
     }
 }

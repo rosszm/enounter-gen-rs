@@ -8,5 +8,24 @@ edition = "2018"
 
 [dependencies]
 rand = "0.8.2"
-indexmap = "1.6.1"
 
+
+[[bin]]
+name = "task1a"
+path = "src/tasks/task1a.rs"
+
+[[bin]]
+name = "task1b"
+path = "src/tasks/task1b.rs"
+
+[[bin]]
+name = "task2a"
+path = "src/tasks/task2a.rs"
+
+[[bin]]
+name = "task2b"
+path = "src/tasks/task2b.rs"
+
+[[bin]]
+name = "task3"
+path = "src/tasks/task3.rs"

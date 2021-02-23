@@ -80,9 +80,9 @@ impl Monster {
     }
 }
 
-// default comparison is by unique name
+// default comparison is by unique init then name
 impl Ord for Monster {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.cmp_name(other)
+        ((self.init, self.name.as_str())).cmp(&(other.init, other.name.as_str()))
     }
 }

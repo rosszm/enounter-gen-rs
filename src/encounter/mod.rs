@@ -7,14 +7,12 @@
 use crate::monsters;
 use monsters::Monster;
 
-use indexmap::IndexMap;
-
 
 /// Represents an encounter for task 3
 pub struct Encounter<'a> {
     /// The number of times a monster is used in an encounter mapped to its
     /// reference
-    usage_map: IndexMap<&'a Monster, u32>,
+    monsters: Vec<&'a Monster>,
     rating: u32
 }
 
@@ -22,7 +20,7 @@ impl<'a> Encounter<'a> {
     /// Returns an empty encounter.
     pub fn new() -> Self {
         Encounter {
-            usage_map: IndexMap::new(),
+            monsters: Vec::new(),
             rating: 0
         }
     }
@@ -36,27 +34,49 @@ impl<'a> Encounter<'a> {
     /// 
     /// * `monster` - a reference to the monster to be added
     pub fn add(&mut self, monster: &'a Monster) {
-        *self.usage_map.entry(monster).or_insert(0) += 1;
+        self.monsters.push(monster);
         self.rating += monster.rating();
     }
 
     /// Sorts the encounter by monster initiative.
     pub fn sort(&mut self) {
-        self.usage_map.sort_by(|m0, _, m1, _| m0.cmp_init(m1))
+        self.monsters.sort_by(|m0, m1| m0.cmp(m1))
     }
 
     /// Prints out the encounter.
     pub fn print(&self) {
-        for (mon, usage) in self.usage_map.iter() {
-            println!("    {}: init {}, Armour {}, Attack {}, Challenge {}",
-            if *usage == 1 { 
+        let mut usage = 1;
+        let mut previous: Option<&&Monster> = None;
+        for cur in self.monsters.iter() {
+            usage = match previous {
+                Some(prev) => {
+                    if cur == prev {
+                        usage + 1
+                    }
+                    else {
+                        self.print_monster(*cur, usage);
+                        1
+                    }
+                },
+                None => {
+                    self.print_monster(*cur, usage);
+                    1
+                }
+            };
+            previous = Some(cur);
+        }
+        println!("  total challenge rating: {}\n", self.rating);
+    }
+
+    /// Prints out a single monster
+    fn print_monster(&self, mon: &Monster, usage: u32) {
+        println!("    {}: init {}, Armour {}, Attack {}, Challenge {}",
+            if usage == 1 { 
                 mon.name().to_string()
             } else { 
                 format!("{} {}s", usage, mon.name())
             },
             mon.init(), mon.armour(), mon.attack(), mon.rating() * usage
-            );
-        }
-        println!("  total challenge rating: {}\n", self.rating);
+        );
     }
 }
