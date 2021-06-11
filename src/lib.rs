@@ -6,3 +6,4 @@
 
 pub mod monsters;
 pub mod encounter;
+pub mod logger;

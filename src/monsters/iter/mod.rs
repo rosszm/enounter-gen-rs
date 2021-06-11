@@ -28,6 +28,12 @@ impl<'a> RandNonRepIterator<'a,> {
     /// Returns an new Iterator over monsters.
     /// 
     /// * `mons` - the Monsters struct to iterate over
+    /// ### Pre-Conditions:
+    /// - `Monsters` must have a `values` field.
+    /// - the `values` field must implement `Iterator`
+    /// 
+    /// ### Post-Conditions:
+    /// - `RandNonRepIterator` is returned.
     pub fn create(mons: &'a Monsters) -> Self {
         RandNonRepIterator {
             monsters: mons.values.iter().collect()

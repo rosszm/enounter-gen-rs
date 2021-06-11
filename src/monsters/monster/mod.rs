@@ -28,7 +28,13 @@ impl Monster {
     /// Create a new Monster from a space separated string. Returns an error
     /// if the string data cannot be parsed.
     /// 
-    /// * `s` - a string containing the monster data.
+    /// - `s` - a string containing the monster data.
+    /// 
+    /// ### Pre-Conditions:
+    /// - the str `s` must be in the valid monster format
+    /// 
+    /// ### Post-Conditions:
+    /// - returns the monster if valid.
     pub fn parse(s: &str) -> Result<Monster, ParseIntError> {
         let vec: Vec<&str> = s.split(' ').collect();
         Ok(Monster {

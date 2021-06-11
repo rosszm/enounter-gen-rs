@@ -30,6 +30,13 @@ impl Monsters {
     /// file if the operation was successful; otherwise it contains an io error. 
     /// 
     /// * `fname` - the name of a file to read from
+    /// 
+    /// ### Pre-Conditions:
+    /// - `fname` must be a valid file to succeed.
+    /// 
+    /// ### Post-Conditions:
+    /// - returns a `Monsters` structure containing all the `Monster` from the 
+    /// file if valid.
     pub fn from(fname: &str) -> Result<Monsters, io::Error> {
         let file =  File::open(fname)?;
         let mut reader = io::BufReader::new(file);

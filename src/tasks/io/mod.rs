@@ -17,9 +17,11 @@ pub enum Input {
 /// Prompts user for a party capability. Returns `Input` if it is a valid
 /// user input; otherwise it returns `None`.
 /// 
-/// Valid inputs include:
-/// * str value of `"Q"` or `"q"`
-/// * a `u32` integer
+/// ### Pre-Conditions:
+/// - user input mut be a str value of `"Q"` or `"q"` or a `u32` integer
+/// 
+/// ### Post-Conditions:
+/// - Some Input enum if the value is valid.
 pub fn user_input() -> Option<Input> {
     print!("Enter party capability: ");
     io::stdout().flush().unwrap();
